@@ -12,8 +12,20 @@ function getJokes(event){
 
     xhr.onload = function(){
         if(this.status === 200) {
-            const response = this.responseText
-            console.log(response)
+            // response will be parsed as a JSON object 
+            const response = JSON.parse(this.responseText)
+
+            let output = ''
+            if(response.type === 'success'){
+                response.value.forEach(function(joke){
+                    output += `<li>${joke.joke}</li>`
+                })
+            } else {
+                output += '<li>Something went wrong</li>'
+            }
+            // putting the list order jokes into the unordered list element while
+            // setting the innerHTML to hte value of output
+            document.querySelector('.jokes').innerHTML = output 
         }
     }
     xhr.send()
